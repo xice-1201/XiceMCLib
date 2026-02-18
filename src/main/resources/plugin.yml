@@ -1,0 +1,12 @@
+name: ${project.artifactId}
+version: ${project.version}
+main: com.xice.mclib.XiceMCLib
+api-version: ${apiVersion}
+commands:
+  xice:
+    description: 主命令
+    usage: /xice <子模块> <子命令>
+folia-supported: true
+load: STARTUP
+author: ${author}
+description: ${description}

@@ -58,4 +58,12 @@
       </resource>
     </resources>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/xice-1201/xicemclib</url>
+    </repository>
+  </distributionManagement>
 </project>

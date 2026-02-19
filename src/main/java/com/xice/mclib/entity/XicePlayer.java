@@ -2,9 +2,12 @@ package com.xice.mclib.entity;
 
 import com.xice.mclib.XiceMCLib;
 import com.xice.mclib.api.XiceMCLibLogger;
+import com.xice.mclib.enums.MessageEnum;
+import com.xice.mclib.exceptions.XicePluginDisabledException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -15,6 +18,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class XicePlayer {
 
@@ -35,10 +39,17 @@ public class XicePlayer {
    *
    * @param message 发送的消息（支持 MiniMessage 格式）
    * @author Xice玄冰
-   * @since 1.21.11-1.0-alpha
+   * @since 1.21.11-1.0-release
    */
-  public void sendMessage(String message) {
-    player.getScheduler().run(XiceMCLib.getInstance(), scheduledTask -> {
+  public void sendMessage(@Nullable String message) {
+    if (message == null || message.isEmpty()) {
+      return;
+    }
+    XiceMCLib plugin = XiceMCLib.getInstance();
+    if (plugin == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
+    }
+    player.getScheduler().run(plugin, scheduledTask -> {
       player.sendMessage(MiniMessage.miniMessage().deserialize(message));
     }, null);
   }
@@ -50,16 +61,20 @@ public class XicePlayer {
    *
    * @param range 查询半径（单位：格）
    * @author Xice玄冰
-   * @since 1.21.11-1.0-beta
+   * @since 1.21.11-1.0-release
    */
-  public @NotNull List<XicePlayer> getNearbyPlayers(double range) {
+  public @NotNull CompletableFuture<List<XicePlayer>> getNearbyPlayersAsync(double range) {
     // 半径不大于0时直接返回空列表
     if (range <= 0.0) {
-      return new ArrayList<>();
+      return CompletableFuture.completedFuture(new ArrayList<>());
     }
     // 预处理所需的参数
     XiceMCLib plugin = XiceMCLib.getInstance();
     XiceMCLibLogger logger = XiceMCLib.getXiceMCLibLogger();
+    if (plugin == null || logger == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
+    }
+    CompletableFuture<List<XicePlayer>> future = new CompletableFuture<>();
     ConcurrentHashMap<UUID, XicePlayer> retMap = new ConcurrentHashMap<>();
     World world = player.getWorld();
     Location loc = player.getLocation();
@@ -98,40 +113,59 @@ public class XicePlayer {
               }
             }
           } catch (Exception e) {
-            logger.writeLog(plugin.getName(), e.getMessage());
+            logger.writeInfo(plugin.getName(), e.getMessage());
           } finally {
             latch.countDown();
           }
         });
       }
     }
-    try {
-      latch.await();
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-    return new ArrayList<>(retMap.values());
+    CompletableFuture.runAsync(() -> {
+      try {
+        latch.await();
+        future.complete(new ArrayList<>(retMap.values()));
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+    });
+    return future;
   }
 
-  public List<XicePlayer> getWorldPlayers() {
-    List<XicePlayer> ret = new ArrayList<>();
-    for (Player target : player.getWorld().getPlayers()) {
-      if (target.equals(player)) {
-        continue;
-      }
-      ret.add(new XicePlayer(target));
+  public CompletableFuture<List<XicePlayer>> getWorldPlayersAsync() {
+    XiceMCLib plugin = XiceMCLib.getInstance();
+    if (plugin == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
     }
-    return ret;
+    CompletableFuture<List<XicePlayer>> future = new CompletableFuture<>();
+    player.getScheduler().run(plugin, task -> {
+      List<XicePlayer> ret = new ArrayList<>();
+      for (Player target : player.getWorld().getPlayers()) {
+        if (target.equals(player)) {
+          continue;
+        }
+        ret.add(new XicePlayer(target));
+      }
+      future.complete(ret);
+    }, null);
+    return future;
   }
 
-  public List<XicePlayer> getOnlinePlayers() {
-    List<XicePlayer> ret = new ArrayList<>();
-    for (Player target : Bukkit.getOnlinePlayers()) {
-      if (target.equals(player)) {
-        continue;
-      }
-      ret.add(new XicePlayer(target));
+  public CompletableFuture<List<XicePlayer>> getOnlinePlayersAsync() {
+    XiceMCLib plugin = XiceMCLib.getInstance();
+    if (plugin == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
     }
-    return ret;
+    CompletableFuture<List<XicePlayer>> future = new CompletableFuture<>();
+    player.getScheduler().run(plugin, task -> {
+      List<XicePlayer> ret = new ArrayList<>();
+      for (Player target : Bukkit.getOnlinePlayers()) {
+        if (target.equals(player)) {
+          continue;
+        }
+        ret.add(new XicePlayer(target));
+      }
+      future.complete(ret);
+    }, null);
+    return future;
   }
 }

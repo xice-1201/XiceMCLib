@@ -8,4 +8,6 @@ public interface XiceCommandExecutor {
   boolean onCommand(XiceCommandSender sender, XiceCommand command, List<String> args);
 
   List<String> onTabComplete(XiceCommandSender sender, XiceCommand command, List<String> args);
+
+  void shutdown();
 }

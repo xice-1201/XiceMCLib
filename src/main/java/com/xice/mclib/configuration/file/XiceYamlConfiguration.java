@@ -1,5 +1,7 @@
 package com.xice.mclib.configuration.file;
 
+import com.xice.mclib.enums.MessageEnum;
+import com.xice.mclib.exceptions.XiceFileInteractionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,13 +26,14 @@ public class XiceYamlConfiguration {
    * 若文件不存在，会自动创建
    *
    * @param file 文件路径
-   * @since 1.21.11-1.0-alpha
+   * @since 1.21.11-1.0-release
    * @author Xice玄冰
    */
   public void save(File file) {
     try {
       yamlConfiguration.save(file);
     } catch (IOException ignored) {
+      throw new XiceFileInteractionException(MessageEnum.MSG_FILE_IO_ERROR.getContent());
     }
   }
 

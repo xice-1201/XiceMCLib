@@ -8,14 +8,18 @@ import java.net.http.WebSocket.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class XiceMCLib extends JavaPlugin implements Listener {
+  private static XiceMCLib instance;
   private static XiceMCLibCommandExecutor commandExecutor;
   private static XiceMCLibListener listener;
   private static XiceMCLibLogger logger;
   private static XiceMCLibYAMLLoader yamlLoader;
 
+  private XiceMCLib() {}
+
   // 当插件被启动时
   @Override
   public void onEnable() {
+    instance = this;
     commandExecutor = XiceMCLibCommandExecutor.getInstance();
     getCommand("xice").setExecutor(commandExecutor);
     listener = XiceMCLibListener.getInstance();
@@ -81,5 +85,12 @@ public class XiceMCLib extends JavaPlugin implements Listener {
    */
   public static XiceMCLibYAMLLoader getXiceMCLibYAMLLoader() {
     return yamlLoader;
+  }
+
+  public static XiceMCLib getInstance() {
+    if (instance == null) {
+      instance = new XiceMCLib();
+    }
+    return instance;
   }
 }

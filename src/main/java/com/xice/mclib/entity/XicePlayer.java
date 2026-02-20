@@ -139,7 +139,7 @@ public class XicePlayer {
    *
    * @return 玩家列表
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.21.11-1.1-alpha
    */
   @SuppressWarnings("unused")
   public CompletableFuture<List<XicePlayer>> getWorldPlayersAsync() {
@@ -147,17 +147,22 @@ public class XicePlayer {
     if (plugin == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
     }
+    // 获取玩家信息
+    World world = player.getWorld();
+    Location loc = player.getLocation();
+    UUID uuid = player.getUniqueId();
+    // 开始查询
     CompletableFuture<List<XicePlayer>> future = new CompletableFuture<>();
-    player.getScheduler().run(plugin, task -> {
+    player.getServer().getRegionScheduler().run(plugin, loc, task -> {
       List<XicePlayer> ret = new ArrayList<>();
-      for (Player target : player.getWorld().getPlayers()) {
-        if (target.equals(player)) {
+      for (Player target : world.getPlayers()) {
+        if (target.getUniqueId().equals(uuid)) {
           continue;
         }
         ret.add(new XicePlayer(target));
       }
       future.complete(ret);
-    }, null);
+    });
     return future;
   }
 
@@ -168,7 +173,7 @@ public class XicePlayer {
    *
    * @return 玩家列表
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.21.11-1.1-alpha
    */
   @SuppressWarnings("unused")
   public CompletableFuture<List<XicePlayer>> getOnlinePlayersAsync() {
@@ -176,17 +181,21 @@ public class XicePlayer {
     if (plugin == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
     }
+    // 获取玩家信息
+    Location loc = player.getLocation();
+    UUID uuid = player.getUniqueId();
+    // 开始查询
     CompletableFuture<List<XicePlayer>> future = new CompletableFuture<>();
-    player.getScheduler().run(plugin, task -> {
+    plugin.getServer().getRegionScheduler().run(plugin, loc, task -> {
       List<XicePlayer> ret = new ArrayList<>();
       for (Player target : Bukkit.getOnlinePlayers()) {
-        if (target.equals(player)) {
+        if (target.getUniqueId().equals(uuid)) {
           continue;
         }
         ret.add(new XicePlayer(target));
       }
       future.complete(ret);
-    }, null);
+    });
     return future;
   }
 }

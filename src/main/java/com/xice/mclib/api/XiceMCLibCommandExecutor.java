@@ -16,7 +16,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
   private volatile Map<String, XiceCommandExecutor> commandExecutorList;
@@ -43,7 +42,7 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
       return true;
     }
     List<String> subArgs = new ArrayList<>(Arrays.asList(args));
-    subArgs.remove(0);
+    subArgs.removeFirst();
     return executor.onCommand(new XiceCommandSender(sender), new XiceCommand(command), subArgs);
   }
 
@@ -68,7 +67,7 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
       XiceCommandExecutor executor = localCommandExecutorList.get(args[0]);
       if (executor != null) {
         List<String> subArgs = new ArrayList<>(Arrays.asList(args));
-        subArgs.remove(0);
+        subArgs.removeFirst();
         return executor.onTabComplete(new XiceCommandSender(sender), new XiceCommand(command), subArgs);
       } else {
         return new ArrayList<>();
@@ -87,6 +86,7 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
    * @author Xice玄冰
    * @since 1.21.11-1.0-release
    */
+  @SuppressWarnings("unused")
   public void addExecutor(@NotNull String moduleName, @NotNull XiceCommandExecutor commandExecutor) {
     Map<String, XiceCommandExecutor> localCommandExecutorList = commandExecutorList;
     if (localCommandExecutorList == null) {

@@ -2,6 +2,7 @@ package com.xice.mclib.api;
 
 import com.xice.mclib.command.XiceCommand;
 import com.xice.mclib.command.XiceCommandSender;
+import com.xice.mclib.configuration.resp.XiceCodeResp;
 import com.xice.mclib.enums.MessageEnum;
 import com.xice.mclib.exceptions.XicePluginDisabledException;
 import com.xice.mclib.interfaces.XiceCommandExecutor;
@@ -79,23 +80,48 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
    * 向 XiceMCLib 注册指令
    * <p>
    * 使用该方法注册指令后，被注册的指令将可以被用户调用
-   * 若因各种原因注册失败，返回 false
    *
    * @param moduleName      插件名称，该名称对应了用户输入的 /xice [moduleName] [子指令] 指令
    * @param commandExecutor 指令执行器，其中定义了如何分析与执行 [子指令]
+   * @return 执行状态
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.1-alpha
    */
   @SuppressWarnings("unused")
-  public void addExecutor(@NotNull String moduleName, @NotNull XiceCommandExecutor commandExecutor) {
+  public int addExecutor(@NotNull String moduleName, @NotNull XiceCommandExecutor commandExecutor) {
     Map<String, XiceCommandExecutor> localCommandExecutorList = commandExecutorList;
     if (localCommandExecutorList == null) {
-      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
+      return XiceCodeResp.PLUGIN_DISABLED;
     }
     XiceCommandExecutor oldExecutor = localCommandExecutorList.put(moduleName, commandExecutor);
     if (oldExecutor != null) {
       oldExecutor.shutdown();
+      return XiceCodeResp.SUCCESS_WITH_CONFLICT;
     }
+    return XiceCodeResp.SUCCESS;
+  }
+
+  /**
+   * 向 XiceMCLib 卸载指令
+   * <p>
+   * 使用该方法卸载指令后，被卸载的指令将无法被用户调用
+   *
+   * @param moduleName      插件名称，该名称对应了用户输入的 /xice [moduleName] [子指令] 指令
+   * @return 执行状态
+   * @author Xice玄冰
+   * @since 1.1-alpha
+   */
+  @SuppressWarnings("unused")
+  public int dropExecutor(@NotNull String moduleName) {
+    Map<String, XiceCommandExecutor> localCommandExecutorList = commandExecutorList;
+    if (localCommandExecutorList == null) {
+      return XiceCodeResp.PLUGIN_DISABLED;
+    }
+    XiceCommandExecutor removedModule = localCommandExecutorList.remove(moduleName);
+    if (removedModule == null) {
+      return XiceCodeResp.SUCCESS_WITHOUT_DOING_ANYTHING;
+    }
+    return XiceCodeResp.SUCCESS;
   }
 
   /**
@@ -104,7 +130,7 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
    * 使用该方法后，所有后续进行的指令请求会被阻止，同时也不应继续使用该模块
    *
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
   public void shutdown() {
     if (commandExecutorList == null) {

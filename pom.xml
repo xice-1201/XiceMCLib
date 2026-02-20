@@ -5,7 +5,7 @@
   <!-- 插件基本信息 -->
   <groupId>com.xice</groupId>
   <artifactId>XiceMCLib</artifactId>
-  <version>Folia 1.21.11-1.0-release</version>
+  <version>Folia 1.21.11-1.1-alpha</version>
   <packaging>jar</packaging>
 
   <properties>

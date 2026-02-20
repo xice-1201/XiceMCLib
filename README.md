@@ -1,6 +1,6 @@
 # XiceMCLib - Xice玄冰的 Minecraft 支持库
 
-[![版本](https://img.shields.io/github/v/release/xice-1201/XiceMCLib?include_prereleases&label=版本&color=orange)](https://github.com/xice-1201/XiceMCLib/releases)
+[![版本](https://img.shields.io/badge/版本-Folia_1.21.11--1.0--release-orange)](https://github.com/xice-1201/XiceMCLib/releases)
 [![许可证](https://img.shields.io/github/license/xice-1201/XiceMCLib?label=许可证&color=green)](LICENSE)
 ![Paper](https://img.shields.io/badge/PaperAPI-1.21.11--R0.1--SNAPSHOT-blue)
 ![Folia](https://img.shields.io/badge/Folia-支持-brightgreen)

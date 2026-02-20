@@ -18,6 +18,7 @@ public class XiceCommandSender {
    * @since 1.21.11-1.0-alpha
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public void sendMessage(String message) {
     commandSender.sendMessage(message);
   }
@@ -32,6 +33,7 @@ public class XiceCommandSender {
    * @since 1.21.11-1.0-alpha
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public boolean hasPermission(String s) {
     return commandSender.hasPermission(s);
   }

@@ -41,6 +41,7 @@ public class XicePlayer {
    * @author Xice玄冰
    * @since 1.21.11-1.0-release
    */
+  @SuppressWarnings("unused")
   public void sendMessage(@Nullable String message) {
     if (message == null || message.isEmpty()) {
       return;
@@ -49,9 +50,7 @@ public class XicePlayer {
     if (plugin == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
     }
-    player.getScheduler().run(plugin, scheduledTask -> {
-      player.sendMessage(MiniMessage.miniMessage().deserialize(message));
-    }, null);
+    player.getScheduler().run(plugin, scheduledTask -> player.sendMessage(MiniMessage.miniMessage().deserialize(message)), null);
   }
 
   /**
@@ -60,9 +59,11 @@ public class XicePlayer {
    * 返回的列表不包含该玩家自己
    *
    * @param range 查询半径（单位：格）
+   * @return 玩家列表
    * @author Xice玄冰
    * @since 1.21.11-1.0-release
    */
+  @SuppressWarnings("unused")
   public @NotNull CompletableFuture<List<XicePlayer>> getNearbyPlayersAsync(double range) {
     // 半径不大于0时直接返回空列表
     if (range <= 0.0) {
@@ -131,6 +132,16 @@ public class XicePlayer {
     return future;
   }
 
+  /**
+   * 查询该玩家所在维度的所有玩家
+   * <p>
+   * 返回的列表不包含该玩家自己
+   *
+   * @return 玩家列表
+   * @author Xice玄冰
+   * @since 1.21.11-1.0-release
+   */
+  @SuppressWarnings("unused")
   public CompletableFuture<List<XicePlayer>> getWorldPlayersAsync() {
     XiceMCLib plugin = XiceMCLib.getInstance();
     if (plugin == null) {
@@ -150,6 +161,16 @@ public class XicePlayer {
     return future;
   }
 
+  /**
+   * 查询服务器的所有在线玩家
+   * <p>
+   * 返回的列表不包含该玩家自己
+   *
+   * @return 玩家列表
+   * @author Xice玄冰
+   * @since 1.21.11-1.0-release
+   */
+  @SuppressWarnings("unused")
   public CompletableFuture<List<XicePlayer>> getOnlinePlayersAsync() {
     XiceMCLib plugin = XiceMCLib.getInstance();
     if (plugin == null) {

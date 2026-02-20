@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class XiceYamlConfiguration {
   private final YamlConfiguration yamlConfiguration;
 
+  @SuppressWarnings("unused")
   public XiceYamlConfiguration() {
     yamlConfiguration = new YamlConfiguration();
   }
@@ -29,6 +30,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-release
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public void save(File file) {
     try {
       yamlConfiguration.save(file);
@@ -48,6 +50,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-alpha
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public void set(String key, Object value) {
     yamlConfiguration.set(key, value);
   }
@@ -63,6 +66,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-beta
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public void setComments(String key, String comments) {
     List<String> commentsList = new ArrayList<>();
     commentsList.add(comments);
@@ -81,6 +85,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-beta
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public void setComments(String key, List<String> comments) {
     yamlConfiguration.setComments(key, comments);
   }
@@ -96,6 +101,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-beta
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public boolean getBoolean(String key) {
     return getBoolean(key, false);
   }
@@ -112,6 +118,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-beta
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public boolean getBoolean(String key, boolean defaultValue) {
     return yamlConfiguration.getBoolean(key, defaultValue);
   }
@@ -127,6 +134,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-alpha
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public double getDouble(String key) {
     return getDouble(key, 0.0);
   }
@@ -143,6 +151,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-alpha
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public double getDouble(String key, double defaultValue) {
     return yamlConfiguration.getDouble(key, defaultValue);
   }
@@ -158,6 +167,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-alpha
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public String getString(String key) {
     return getString(key, null);
   }
@@ -174,6 +184,7 @@ public class XiceYamlConfiguration {
    * @since 1.21.11-1.0-alpha
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public String getString(String key, String defaultValue) {
     return yamlConfiguration.getString(key, defaultValue);
   }

@@ -26,6 +26,7 @@ public class XiceMCLibYAMLLoader {
    * @author Xice玄冰
    * @since 1.21.11-1.0-release
    */
+  @SuppressWarnings("unused")
   public XiceYamlConfiguration readYAMLSettings(String yamlFileName) {
     JavaPlugin localPlugin = plugin;
     if (localPlugin == null) {
@@ -48,6 +49,7 @@ public class XiceMCLibYAMLLoader {
    * @author Xice玄冰
    * @since 1.21.11-1.0-release
    */
+  @SuppressWarnings("unused")
   public void writeYAMLSettings(String yamlFileName, XiceYamlConfiguration settings) {
     JavaPlugin localPlugin = plugin;
     if (localPlugin == null) {

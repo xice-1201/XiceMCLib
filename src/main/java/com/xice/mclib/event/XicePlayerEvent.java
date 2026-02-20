@@ -8,6 +8,15 @@ public class XicePlayerEvent extends XiceEvent {
     super(event);
   }
 
+  /**
+   * 获取触发对应事件的玩家
+   * <p>
+   *
+   * @return 玩家对象
+   * @author Xice玄冰
+   * @since 1.21.11-1.0-alpha
+   */
+  @SuppressWarnings("unused")
   public XicePlayer getPlayer() {
     return new XicePlayer(((PlayerEvent) event).getPlayer());
   }

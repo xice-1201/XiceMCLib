@@ -16,21 +16,60 @@ public class XiceMCLibLogger {
   }
 
   /**
-   * 通过 XiceMCLib 输出日志
+   * 通过 XiceMCLib 输出信息
    * <p>
-   * 使用该方法输出日志会自动格式化日志内容为 [插件名称 时间戳] 日志内容
+   * 使用该方法输出日志会自动格式化日志内容为 &lt;INFO&gt; [插件名称 时间戳] 日志内容
    *
    * @param pluginName 插件名称
    * @param message 日志内容
    * @since 1.21.11-1.0-release
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public void writeInfo(@NotNull String pluginName, @NotNull String message) {
     Logger localLogger = logger;
     if (localLogger == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
     }
-    localLogger.info("[" + pluginName + " " + LocalDateTime.now().format(TIME_FORMATTER) + "] " + message);
+    localLogger.info("<INFO> [" + pluginName + " " + LocalDateTime.now().format(TIME_FORMATTER) + "] " + message);
+  }
+
+  /**
+   * 通过 XiceMCLib 输出警告
+   * <p>
+   * 使用该方法输出日志会自动格式化日志内容为 &lt;WARNING&gt; [插件名称 时间戳] 日志内容
+   *
+   * @param pluginName 插件名称
+   * @param message 日志内容
+   * @since 1.21.11-1.1-alpha
+   * @author Xice玄冰
+   */
+  @SuppressWarnings("unused")
+  public void writeWarning(@NotNull String pluginName, @NotNull String message) {
+    Logger localLogger = logger;
+    if (localLogger == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
+    }
+    localLogger.warning("<WARNING> [" + pluginName + " " + LocalDateTime.now().format(TIME_FORMATTER) + "] " + message);
+  }
+
+  /**
+   * 通过 XiceMCLib 输出错误
+   * <p>
+   * 使用该方法输出日志会自动格式化日志内容为 &lt;ERROR&gt; [插件名称 时间戳] 日志内容
+   *
+   * @param pluginName 插件名称
+   * @param message 日志内容
+   * @since 1.21.11-1.1-alpha
+   * @author Xice玄冰
+   */
+  @SuppressWarnings("unused")
+  public void writeError(@NotNull String pluginName, @NotNull String message) {
+    Logger localLogger = logger;
+    if (localLogger == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
+    }
+    localLogger.severe("<ERROR> [" + pluginName + " " + LocalDateTime.now().format(TIME_FORMATTER) + "] " + message);
   }
 
   /**

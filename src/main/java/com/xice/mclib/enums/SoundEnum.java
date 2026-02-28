@@ -36,8 +36,8 @@ public enum SoundEnum {
      * @return Bukkit Sound 对象
      * @since 1.0-release
      */
-    @NotNull
-    public Sound getInnerSound() {
+    @Internal
+    public @NotNull Sound getInnerSound() {
         return sound;
     }
 }

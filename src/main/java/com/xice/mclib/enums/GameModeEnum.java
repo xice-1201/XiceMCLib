@@ -37,6 +37,7 @@ public enum GameModeEnum {
      * @return Bukkit GameMode 对象
      * @since 1.1-beta
      */
+    @Internal
     public @NotNull GameMode getGameMode() {
         return gameMode;
     }
@@ -50,6 +51,7 @@ public enum GameModeEnum {
      * @return 对应的 GameModeEnum，如果不匹配则返回 null
      * @since 1.1-beta
      */
+    @Internal
     public static @Nullable GameModeEnum getByGameMode(@Nullable GameMode gameMode) {
         if (gameMode == null) {
             return null;

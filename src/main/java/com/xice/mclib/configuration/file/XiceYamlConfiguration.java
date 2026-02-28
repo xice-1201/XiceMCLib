@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 public class XiceYamlConfiguration {
   private final YamlConfiguration yamlConfiguration;
@@ -16,6 +17,7 @@ public class XiceYamlConfiguration {
     yamlConfiguration = new YamlConfiguration();
   }
 
+  @Internal
   public XiceYamlConfiguration(YamlConfiguration yamlConfiguration) {
     this.yamlConfiguration = yamlConfiguration;
   }
@@ -27,7 +29,7 @@ public class XiceYamlConfiguration {
    * 若文件不存在，会自动创建
    *
    * @param file 文件路径
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -47,7 +49,7 @@ public class XiceYamlConfiguration {
    *
    * @param key 键
    * @param value 值
-   * @since 1.21.11-1.0-alpha
+   * @since 1.0-alpha
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -63,7 +65,7 @@ public class XiceYamlConfiguration {
    *
    * @param key 键
    * @param comments 注释
-   * @since 1.21.11-1.0-beta
+   * @since 1.0-beta
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -82,7 +84,7 @@ public class XiceYamlConfiguration {
    *
    * @param key 键
    * @param comments 注释
-   * @since 1.21.11-1.0-beta
+   * @since 1.0-beta
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -98,7 +100,7 @@ public class XiceYamlConfiguration {
    *
    * @param key 键
    * @return  对应的值（boolean）
-   * @since 1.21.11-1.0-beta
+   * @since 1.0-beta
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -115,7 +117,7 @@ public class XiceYamlConfiguration {
    * @param key 键
    * @param defaultValue 默认值
    * @return  对应的值（boolean）
-   * @since 1.21.11-1.0-beta
+   * @since 1.0-beta
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -127,11 +129,44 @@ public class XiceYamlConfiguration {
    * 获取 YAML 配置
    * <p>
    * 使用该方法获取 XiceYamlConfiguration 中对应 key 的值
+   * 默认值为 0
+   *
+   * @param key 键
+   * @return  对应的值（int）
+   * @since 1.1-beta
+   * @author Xice玄冰
+   */
+  @SuppressWarnings("unused")
+  public int getInteger(String key) {
+    return getInteger(key, 0);
+  }
+
+  /**
+   * 获取 YAML 配置
+   * <p>
+   * 使用该方法获取 XiceYamlConfiguration 中对应 key 的值
+   * 默认值为 defaultValue
+   *
+   * @param key 键
+   * @param defaultValue 默认值
+   * @return  对应的值（int）
+   * @since 1.1-beta
+   * @author Xice玄冰
+   */
+  @SuppressWarnings("unused")
+  public int getInteger(String key, int defaultValue) {
+    return yamlConfiguration.getInt(key, defaultValue);
+  }
+
+  /**
+   * 获取 YAML 配置
+   * <p>
+   * 使用该方法获取 XiceYamlConfiguration 中对应 key 的值
    * 默认值为 0.0
    *
    * @param key 键
    * @return  对应的值（double）
-   * @since 1.21.11-1.0-alpha
+   * @since 1.0-alpha
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -148,7 +183,7 @@ public class XiceYamlConfiguration {
    * @param key 键
    * @param defaultValue 默认值
    * @return  对应的值（double）
-   * @since 1.21.11-1.0-alpha
+   * @since 1.0-alpha
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -164,7 +199,7 @@ public class XiceYamlConfiguration {
    *
    * @param key 键
    * @return  对应的值（String）
-   * @since 1.21.11-1.0-alpha
+   * @since 1.0-alpha
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")
@@ -181,7 +216,7 @@ public class XiceYamlConfiguration {
    * @param key 键
    * @param defaultValue 默认值
    * @return  对应的值（String）
-   * @since 1.21.11-1.0-alpha
+   * @since 1.0-alpha
    * @author Xice玄冰
    */
   @SuppressWarnings("unused")

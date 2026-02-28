@@ -8,10 +8,14 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class XiceMCLibYAMLLoader {
   private JavaPlugin plugin;
 
+  @Internal
   public XiceMCLibYAMLLoader(JavaPlugin plugin) {
     this.plugin = plugin;
   }
@@ -24,10 +28,10 @@ public class XiceMCLibYAMLLoader {
    * @param yamlFileName 文件名称，将读取 plugins/xice/[yamlFileName].yml 文件
    * @return 配置参数
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
   @SuppressWarnings("unused")
-  public XiceYamlConfiguration readYAMLSettings(String yamlFileName) {
+  public @Nullable XiceYamlConfiguration readYAMLSettings(@NotNull String yamlFileName) {
     JavaPlugin localPlugin = plugin;
     if (localPlugin == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
@@ -47,10 +51,10 @@ public class XiceMCLibYAMLLoader {
    * @param yamlFileName 文件名称，将写入 plugins/xice/[yamlFileName].yml 文件
    * @param settings     配置参数
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
   @SuppressWarnings("unused")
-  public void writeYAMLSettings(String yamlFileName, XiceYamlConfiguration settings) {
+  public void writeYAMLSettings(@NotNull String yamlFileName, @NotNull XiceYamlConfiguration settings) {
     JavaPlugin localPlugin = plugin;
     if (localPlugin == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
@@ -78,6 +82,7 @@ public class XiceMCLibYAMLLoader {
    * @author Xice玄冰
    * @since 1.21.11-1.0-release
    */
+  @Internal
   public void shutdown() {
     plugin = null;
   }

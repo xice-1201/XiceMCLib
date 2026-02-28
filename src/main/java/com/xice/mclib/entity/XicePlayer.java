@@ -2,8 +2,12 @@ package com.xice.mclib.entity;
 
 import com.xice.mclib.XiceMCLib;
 import com.xice.mclib.api.XiceMCLibLogger;
+import com.xice.mclib.enums.GameModeEnum;
 import com.xice.mclib.enums.MessageEnum;
+import com.xice.mclib.enums.SoundEnum;
 import com.xice.mclib.exceptions.XicePluginDisabledException;
+import com.xice.mclib.inventorys.XicePlayerInventory;
+import com.xice.mclib.plugin.XicePlugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,18 +21,28 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class XicePlayer {
-
   private final Player player;
 
+  @Internal
   public XicePlayer(Player player) {
     this.player = player;
   }
 
-  public String getName() {
+  /**
+   * 获取该玩家的名称
+   * <p>
+   *
+   * @return 玩家名称
+   * @author Xice玄冰
+   * @since 1.0-release
+   */
+  @SuppressWarnings("unused")
+  public @NotNull String getName() {
     return player.getName();
   }
 
@@ -39,7 +53,7 @@ public class XicePlayer {
    *
    * @param message 发送的消息（支持 MiniMessage 格式）
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
   @SuppressWarnings("unused")
   public void sendMessage(@Nullable String message) {
@@ -54,6 +68,96 @@ public class XicePlayer {
   }
 
   /**
+   * 在该玩家位置播放声音
+   * <p>
+   *
+   * @param sound 播放的声音
+   * @author Xice玄冰
+   * @since 1.0-release
+   */
+  @SuppressWarnings("unused")
+  public void playSound(@NotNull SoundEnum sound) {
+    XiceMCLib plugin = XiceMCLib.getInstance();
+    if (plugin == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
+    }
+    player.getScheduler().run(plugin, scheduledTask -> player.getWorld().playSound(player.getLocation(), sound.getInnerSound(), 1.0f, 1.0f), null);
+  }
+
+  /**
+   * 向该玩家发送资源包
+   * <p>
+   * 发送的资源包可通过 resourcePackHash 验证完整性
+   *
+   * @param resourcePackURL  资源包下载地址
+   * @param resourcePackHash 资源包 SHA-1 码
+   * @author Xice玄冰
+   * @since 1.1-beta
+   */
+  @SuppressWarnings("unused")
+  public void setResourcePack(@NotNull String resourcePackURL, @NotNull String resourcePackHash) {
+    XicePlugin plugin = XiceMCLib.getInstance();
+    if (plugin == null) {
+      throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
+    }
+    plugin.getServer().getGlobalRegionScheduler().runDelayed(plugin, scheduledTask -> {
+      player.setResourcePack(resourcePackURL, resourcePackHash);
+    }, 20L);
+  }
+
+  /**
+   * 做出挥舞主手动作
+   * <p>
+   * 使玩家做出挥舞主手物品的动画效果
+   *
+   * @author Xice玄冰
+   * @since 1.1-beta
+   */
+  @SuppressWarnings("unused")
+  public void swingMainHand() {
+    player.swingMainHand();
+  }
+
+  /**
+   * 做出挥舞副手动作
+   * <p>
+   * 使玩家做出挥舞副手物品的动画效果
+   *
+   * @author Xice玄冰
+   * @since 1.1-beta
+   */
+  @SuppressWarnings("unused")
+  public void swingOffHand() {
+    player.swingOffHand();
+  }
+
+  /**
+   * 获取该玩家的物品栏
+   * <p>
+   *
+   * @return 玩家物品栏
+   * @author Xice玄冰
+   * @since 1.1-beta
+   */
+  @SuppressWarnings("unused")
+  public @NotNull XicePlayerInventory getInventory() {
+    return new XicePlayerInventory(player.getInventory());
+  }
+
+  /**
+   * 获取该玩家的游戏模式
+   * <p>
+   *
+   * @return 游戏模式
+   * @author Xice玄冰
+   * @since 1.1-beta
+   */
+  @SuppressWarnings("unused")
+  public @Nullable GameModeEnum getGameMode() {
+    return GameModeEnum.getByGameMode(player.getGameMode());
+  }
+
+  /**
    * 查询该玩家指定半径范围内的所有玩家
    * <p>
    * 返回的列表不包含该玩家自己
@@ -61,7 +165,7 @@ public class XicePlayer {
    * @param range 查询半径（单位：格）
    * @return 玩家列表
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
   @SuppressWarnings("unused")
   public @NotNull CompletableFuture<List<XicePlayer>> getNearbyPlayersAsync(double range) {
@@ -139,10 +243,10 @@ public class XicePlayer {
    *
    * @return 玩家列表
    * @author Xice玄冰
-   * @since 1.21.11-1.1-alpha
+   * @since 1.1-alpha
    */
   @SuppressWarnings("unused")
-  public CompletableFuture<List<XicePlayer>> getWorldPlayersAsync() {
+  public @NotNull CompletableFuture<List<XicePlayer>> getWorldPlayersAsync() {
     XiceMCLib plugin = XiceMCLib.getInstance();
     if (plugin == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
@@ -173,10 +277,10 @@ public class XicePlayer {
    *
    * @return 玩家列表
    * @author Xice玄冰
-   * @since 1.21.11-1.1-alpha
+   * @since 1.1-alpha
    */
   @SuppressWarnings("unused")
-  public CompletableFuture<List<XicePlayer>> getOnlinePlayersAsync() {
+  public @NotNull CompletableFuture<List<XicePlayer>> getOnlinePlayersAsync() {
     XiceMCLib plugin = XiceMCLib.getInstance();
     if (plugin == null) {
       throw new XicePluginDisabledException(MessageEnum.MSG_PLUGIN_DISABLED.getContent());
@@ -197,5 +301,10 @@ public class XicePlayer {
       future.complete(ret);
     });
     return future;
+  }
+
+  @Internal
+  public Player getInnerPlayer() {
+    return player;
   }
 }

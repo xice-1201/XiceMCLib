@@ -5,12 +5,14 @@ import com.xice.mclib.exceptions.XicePluginDisabledException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
 public class XiceMCLibLogger {
   private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
   private volatile Logger logger;
 
+  @Internal
   public XiceMCLibLogger(@NotNull Logger logger) {
     this.logger = logger;
   }
@@ -21,9 +23,9 @@ public class XiceMCLibLogger {
    * 使用该方法输出日志会自动格式化日志内容为 &lt;INFO&gt; [插件名称 时间戳] 日志内容
    *
    * @param pluginName 插件名称
-   * @param message 日志内容
-   * @since 1.21.11-1.0-release
+   * @param message    日志内容
    * @author Xice玄冰
+   * @since 1.21.11-1.0-release
    */
   @SuppressWarnings("unused")
   public void writeInfo(@NotNull String pluginName, @NotNull String message) {
@@ -40,9 +42,9 @@ public class XiceMCLibLogger {
    * 使用该方法输出日志会自动格式化日志内容为 &lt;WARNING&gt; [插件名称 时间戳] 日志内容
    *
    * @param pluginName 插件名称
-   * @param message 日志内容
-   * @since 1.21.11-1.1-alpha
+   * @param message    日志内容
    * @author Xice玄冰
+   * @since 1.21.11-1.1-alpha
    */
   @SuppressWarnings("unused")
   public void writeWarning(@NotNull String pluginName, @NotNull String message) {
@@ -59,9 +61,9 @@ public class XiceMCLibLogger {
    * 使用该方法输出日志会自动格式化日志内容为 &lt;ERROR&gt; [插件名称 时间戳] 日志内容
    *
    * @param pluginName 插件名称
-   * @param message 日志内容
-   * @since 1.21.11-1.1-alpha
+   * @param message    日志内容
    * @author Xice玄冰
+   * @since 1.21.11-1.1-alpha
    */
   @SuppressWarnings("unused")
   public void writeError(@NotNull String pluginName, @NotNull String message) {
@@ -80,6 +82,7 @@ public class XiceMCLibLogger {
    * @author Xice玄冰
    * @since 1.21.11-1.0-release
    */
+  @Internal
   public void shutdown() {
     logger = null;
   }

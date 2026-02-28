@@ -2,8 +2,11 @@ package com.xice.mclib.event;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 public class XicePlayerQuitEvent extends XicePlayerEvent {
+  @Internal
   public XicePlayerQuitEvent(PlayerQuitEvent event) {
     super(event);
   }
@@ -17,7 +20,7 @@ public class XicePlayerQuitEvent extends XicePlayerEvent {
    * @since 1.21.11-1.1-alpha
    */
   @SuppressWarnings("unused")
-  public void setQuitMessage(String message) {
+  public void setQuitMessage(@Nullable String message) {
     if (message == null || message.isEmpty()) {
       ((PlayerQuitEvent) event).quitMessage(null);
     } else {

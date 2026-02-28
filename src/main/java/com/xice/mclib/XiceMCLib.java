@@ -4,22 +4,28 @@ import com.xice.mclib.api.XiceMCLibCommandExecutor;
 import com.xice.mclib.api.XiceMCLibListener;
 import com.xice.mclib.api.XiceMCLibLogger;
 import com.xice.mclib.api.XiceMCLibYAMLLoader;
+import com.xice.mclib.configuration.file.XiceYamlConfiguration;
+import com.xice.mclib.enums.SettingsEnum;
+import com.xice.mclib.plugin.XicePlugin;
+import com.xice.mclib.util.SettingsUtil;
 import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
-public class XiceMCLib extends JavaPlugin {
+public class XiceMCLib extends XicePlugin {
   private static final AtomicReference<XiceMCLib> instance = new AtomicReference<>();
   private static volatile XiceMCLibCommandExecutor commandExecutor;
   private static volatile XiceMCLibListener listener;
   private static volatile XiceMCLibLogger logger;
   private static volatile XiceMCLibYAMLLoader yamlLoader;
 
+  @Internal
   public XiceMCLib() {}
 
   // 当插件被启动时
   @Override
+  @Internal
   public void onEnable() {
     try{
       if (!instance.compareAndSet(null, this)) {
@@ -27,10 +33,13 @@ public class XiceMCLib extends JavaPlugin {
         getServer().getPluginManager().disablePlugin(this);
         return;
       }
+      // 启动各模块
       commandExecutor = new XiceMCLibCommandExecutor();
       listener = new XiceMCLibListener();
       logger = new XiceMCLibLogger(getLogger());
       yamlLoader = new XiceMCLibYAMLLoader(this);
+      // 初始化配置
+      SettingsUtil.init();
       PluginCommand xiceCommand = getCommand("xice");
       if (xiceCommand == null) {
         getLogger().severe("命令 xice 不存在！");
@@ -49,6 +58,7 @@ public class XiceMCLib extends JavaPlugin {
 
   // 当插件被关闭时
   @Override
+  @Internal
   public void onDisable() {
     if (this != instance.get()) {
       return;
@@ -88,11 +98,13 @@ public class XiceMCLib extends JavaPlugin {
    *
    * @return 指令执行器
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
+  @SuppressWarnings("unused")
   public static @Nullable XiceMCLibCommandExecutor getXiceMCLibCommandExecutor() {
     return commandExecutor;
   }
+
 
   /**
    * 获取事件监听器
@@ -101,8 +113,9 @@ public class XiceMCLib extends JavaPlugin {
    *
    * @return 事件监听器
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
+  @SuppressWarnings("unused")
   public static @Nullable XiceMCLibListener getXiceMCLibListener() {
     return listener;
   }
@@ -114,11 +127,13 @@ public class XiceMCLib extends JavaPlugin {
    *
    * @return 日志工具
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
+  @SuppressWarnings("unused")
   public static @Nullable XiceMCLibLogger getXiceMCLibLogger() {
     return logger;
   }
+
 
   /**
    * 获取配置加载器
@@ -127,8 +142,9 @@ public class XiceMCLib extends JavaPlugin {
    *
    * @return 配置加载器
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
+  @SuppressWarnings("unused")
   public static @Nullable XiceMCLibYAMLLoader getXiceMCLibYAMLLoader() {
     return yamlLoader;
   }
@@ -140,8 +156,9 @@ public class XiceMCLib extends JavaPlugin {
    *
    * @return XiceMCLib 自身
    * @author Xice玄冰
-   * @since 1.21.11-1.0-release
+   * @since 1.0-release
    */
+  @SuppressWarnings("unused")
   public static @Nullable XiceMCLib getInstance() {
     return instance.get();
   }

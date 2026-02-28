@@ -16,17 +16,20 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
 public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
   private volatile Map<String, XiceCommandExecutor> commandExecutorList;
 
+  @Internal
   public XiceMCLibCommandExecutor() {
     commandExecutorList = new ConcurrentHashMap<>();
   }
 
   // 执行指令时调用
   @Override
+  @Internal
   public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
     Map<String, XiceCommandExecutor> localCommandExecutorList = commandExecutorList;
     if (localCommandExecutorList == null) {
@@ -49,6 +52,7 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
 
   // Tab 补全指令时调用
   @Override
+  @Internal
   public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
     Map<String, XiceCommandExecutor> localCommandExecutorList = commandExecutorList;
     if (localCommandExecutorList == null) {
@@ -57,13 +61,13 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
     // 无额外参数时，提供全部启用的功能插件列表
     if (args.length < 1) {
       return new ArrayList<>(localCommandExecutorList.keySet());
-    // 根据已输入内容提供符合条件的插件名
+      // 根据已输入内容提供符合条件的插件名
     } else if (args.length == 1) {
       List<String> suggestions = new ArrayList<>(localCommandExecutorList.keySet());
       suggestions.removeIf(s -> !s.startsWith(args[0]));
       Collections.sort(suggestions);
       return suggestions;
-    // 调用对应插件的 onTabComplete 获取对应的补全指令
+      // 调用对应插件的 onTabComplete 获取对应的补全指令
     } else {
       XiceCommandExecutor executor = localCommandExecutorList.get(args[0]);
       if (executor != null) {
@@ -106,7 +110,7 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
    * <p>
    * 使用该方法卸载指令后，被卸载的指令将无法被用户调用
    *
-   * @param moduleName      插件名称，该名称对应了用户输入的 /xice [moduleName] [子指令] 指令
+   * @param moduleName 插件名称，该名称对应了用户输入的 /xice [moduleName] [子指令] 指令
    * @return 执行状态
    * @author Xice玄冰
    * @since 1.1-alpha
@@ -132,6 +136,7 @@ public class XiceMCLibCommandExecutor implements CommandExecutor, TabCompleter {
    * @author Xice玄冰
    * @since 1.0-release
    */
+  @Internal
   public void shutdown() {
     if (commandExecutorList == null) {
       return;

@@ -18,6 +18,7 @@ public class XiceMiniMessageParseUtil {
    * @since 1.21.11-1.0-release
    * @author Xice玄冰
    */
+  @SuppressWarnings("unused")
   public static String parseMessageSourcePlayer(String rawMessage, XicePlayer sourcePlayer) {
     return rawMessage
         .replace("%player%", sourcePlayer.getName())

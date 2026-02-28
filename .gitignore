@@ -63,3 +63,4 @@ CLAUDE.md
 # Claude IDE integration files
 .claude-ide/
 .claude-ide.json
+/.idea/inspectionProfiles/Project_Default.xml
